@@ -13,14 +13,27 @@ header {
     align-items: center;
 }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
+#hamburger-menu {
+    font-size: 24px; /* Larger clickable area */
+    cursor: pointer;
 }
 
-.hidden {
-    display: none;
+/* Desktop navigation styling */
+nav#desktop-menu a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: inline-block; /* Keep the desktop menu horizontal */
+    margin: 0 5px;
+}
+
+/* Mobile navigation styling */
+nav#mobile-menu a {
+    color: white;
+    text-decoration: none;
+    display: block; /* Ensure links are block level for vertical layout */
+    padding: 8px 12px; /* Larger tap area */
+    margin: 5px 0; /* Space out links */
 }
 
 main {
@@ -34,12 +47,38 @@ footer {
     padding: 10px 0;
 }
 
+/* Styles specific to mobile devices */
 @media (max-width: 768px) {
     #desktop-menu {
         display: none;
     }
 
     #mobile-menu {
+        display: none; /* Initially hidden */
+        background-color: #cd5c5c; /* Optional: Make the menu stand out */
+        position: absolute; /* Overlay the menu over the content */
+        top: 50px; /* Adjust based on header height */
+        width: 100%; /* Menu width */
+        box-sizing: border-box; /* Include padding in width */
+        z-index: 1000; /* Ensure menu is above other content */
+    }
+
+    #hamburger-menu {
         display: block;
+    }
+}
+
+/* Styles specific to desktop and larger devices */
+@media (min-width: 769px) {
+    #desktop-menu {
+        display: block;
+    }
+
+    #hamburger-menu {
+        display: none; /* Hide hamburger menu on desktop */
+    }
+
+    #mobile-menu {
+        display: none; /* Ensure mobile menu is not displayed on desktop */
     }
 }
