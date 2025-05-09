@@ -95,63 +95,6 @@ function generateEventHTML(events) {
   html += '  </div>\n';
   html += '</div>\n';
   
-  // Add CSS for styling
-  html += '<style>\n';
-  html += '  .events-container {\n';
-  html += '    font-family: Arial, sans-serif;\n';
-  html += '    max-width: 800px;\n';
-  html += '    margin: 0 auto;\n';
-  html += '  }\n';
-  html += '  .events-list {\n';
-  html += '    display: grid;\n';
-  html += '    grid-template-columns: 1fr;\n';
-  html += '    gap: 20px;\n';
-  html += '  }\n';
-  html += '  .event-item {\n';
-  html += '    padding: 20px;\n';
-  html += '    border: 1px solid #ddd;\n';
-  html += '    border-radius: 5px;\n';
-  html += '    background-color: white;\n';
-  html += '    box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n';
-  html += '  }\n';
-  html += '  .event-image {\n';
-  html += '    margin-bottom: 15px;\n';
-  html += '  }\n';
-  html += '  .event-image img {\n';
-  html += '    width: 100%;\n';
-  html += '    height: auto;\n';
-  html += '    border-radius: 4px;\n';
-  html += '  }\n';
-  html += '  .event-item h3 {\n';
-  html += '    margin-top: 0;\n';
-  html += '    color: #333;\n';
-  html += '  }\n';
-  html += '  .event-date, .event-venue {\n';
-  html += '    color: #555;\n';
-  html += '  }\n';
-  html += '  .event-description {\n';
-  html += '    margin: 10px 0;\n';
-  html += '    font-style: italic;\n';
-  html += '  }\n';
-  html += '  .event-button {\n';
-  html += '    display: inline-block;\n';
-  html += '    padding: 8px 16px;\n';
-  html += '    background-color: #f8682E;\n';
-  html += '    color: white;\n';
-  html += '    text-decoration: none;\n';
-  html += '    border-radius: 4px;\n';
-  html += '    margin-top: 10px;\n';
-  html += '  }\n';
-  html += '  .event-button:hover {\n';
-  html += '    background-color: #e5591b;\n';
-  html += '  }\n';
-  html += '  @media (min-width: 768px) {\n';
-  html += '    .events-list {\n';
-  html += '      grid-template-columns: repeat(2, 1fr);\n';
-  html += '    }\n';
-  html += '  }\n';
-  html += '</style>';
-  
   return html;
 }
 
@@ -166,15 +109,42 @@ async function updateIndexHtml(eventsHtml) {
   try {
     let indexHtml = fs.readFileSync('index.html', 'utf8');
     const eventsContainerStart = indexHtml.indexOf('<div id="events-container">');
-    const eventsContainerEnd = indexHtml.indexOf('</div>', eventsContainerStart);
     
-    if (eventsContainerStart === -1 || eventsContainerEnd === -1) {
+    if (eventsContainerStart === -1) {
       throw new Error('Could not find events container in index.html');
     }
     
-    const newIndexHtml = indexHtml.substring(0, eventsContainerStart + 25) + 
-                        '\n' + eventsHtml + 
-                        indexHtml.substring(eventsContainerEnd);
+    // Find the end of the events container by matching nested divs
+    let depth = 1;
+    let pos = eventsContainerStart + '<div id="events-container">'.length;
+    
+    while (depth > 0 && pos < indexHtml.length) {
+      const nextOpenDiv = indexHtml.indexOf('<div', pos);
+      const nextCloseDiv = indexHtml.indexOf('</div>', pos);
+      
+      if (nextCloseDiv === -1) {
+        throw new Error('Malformed HTML: missing closing div');
+      }
+      
+      if (nextOpenDiv !== -1 && nextOpenDiv < nextCloseDiv) {
+        depth++;
+        pos = nextOpenDiv + 1;
+      } else {
+        depth--;
+        pos = nextCloseDiv + 1;
+      }
+    }
+    
+    if (depth !== 0) {
+      throw new Error('Malformed HTML: unbalanced div tags');
+    }
+    
+    const eventsContainerEnd = pos - 1;
+    
+    const newIndexHtml = indexHtml.substring(0, eventsContainerStart) + 
+                        '<div id="events-container">' + 
+                        eventsHtml + 
+                        indexHtml.substring(eventsContainerEnd + 6); // +6 to skip '</div>'
     
     fs.writeFileSync('index.html', newIndexHtml);
     console.log('Updated index.html with latest events');
