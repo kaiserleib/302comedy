@@ -108,7 +108,7 @@ function saveServerDataToJson(serverData, organizerId) {
 async function updateIndexHtml(eventsHtml) {
   try {
     let indexHtml = fs.readFileSync('index.html', 'utf8');
-    const eventsContainerStart = indexHtml.indexOf('<div id="events-container">');
+    const eventsContainerStart = indexHtml.lastIndexOf('<div id="events-container">');
     
     if (eventsContainerStart === -1) {
       throw new Error('Could not find events container in index.html');
@@ -141,10 +141,16 @@ async function updateIndexHtml(eventsHtml) {
     
     const eventsContainerEnd = pos - 1;
     
+    // Get the closing div tag
+    const closingDiv = indexHtml.substring(eventsContainerEnd, eventsContainerEnd + 6);
+    if (closingDiv !== '</div>') {
+      throw new Error('Malformed HTML: unexpected closing tag');
+    }
+    
     const newIndexHtml = indexHtml.substring(0, eventsContainerStart) + 
                         '<div id="events-container">' + 
                         eventsHtml + 
-                        indexHtml.substring(eventsContainerEnd + 6); // +6 to skip '</div>'
+                        indexHtml.substring(eventsContainerEnd + 6);
     
     fs.writeFileSync('index.html', newIndexHtml);
     console.log('Updated index.html with latest events');
