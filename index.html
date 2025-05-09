@@ -13,6 +13,7 @@
             padding: 20px;
             background-color: #f5f5f5;
         }
+
         .intro {
             text-align: center;
             margin: 40px auto;
@@ -22,16 +23,83 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
         .intro h1 {
             color: #333;
             margin-bottom: 20px;
         }
+
         .intro p {
             color: #666;
             font-size: 1.1em;
         }
+
         #events-container {
             margin-top: 40px;
+        }
+
+        .events-container {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .events-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .event-item {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .event-image {
+            margin-bottom: 15px;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .event-item h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .event-date, .event-venue {
+            color: #555;
+        }
+
+        .event-description {
+            margin: 10px 0;
+            font-style: italic;
+        }
+
+        .event-button {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #f8682E;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .event-button:hover {
+            background-color: #e5591b;
+        }
+
+        @media (min-width: 768px) {
+            .events-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -40,41 +108,16 @@
         <h1>302 Comedy</h1>
         <p>Bringing the best comedy shows to Montana! We produce regular comedy events featuring both local talent and nationally touring comedians. From intimate brewery shows to larger venue performances, we're dedicated to making Montana laugh.</p>
     </div>
-    <div id="events-container
-<div class="events-container">
+    <div id="events-container"><div class="events-container">
   <h2>Upcoming Events</h2>
   <div class="events-list">
     <div class="event-item">
-      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F987021823%2F900239923343%2F1%2Foriginal.20250318-211155?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.487641687657&fp-y=0.397859922179&s=f063a1daffe80e3226bbb9e4e97a5157" alt="John F. O'Donnell: I'm On Lithium"></div>
-      <h3><a href="https://www.eventbrite.com/e/john-f-odonnell-im-on-lithium-tickets-1291842528779" target="_blank">John F. O'Donnell: I'm On Lithium</a></h3>
-      <p class="event-date"><strong>When:</strong> 3/27/2025, 7:00:00 PM</p>
-      <p class="event-venue"><strong>Where:</strong> Canyon Ferry Brewing</p>
-      <p class="event-description">John F. O’Donnell (Comedy Central, NY Times, NAMI-NYC) is an accomplished, national headlining comedian with over 20 years of</p>
-      <a href="https://www.eventbrite.com/e/john-f-odonnell-im-on-lithium-tickets-1291842528779" class="event-button" target="_blank">Get Tickets</a>
-    </div>
-    <div class="event-item">
-      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F989714373%2F900239923343%2F1%2Foriginal.20250321-191908?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.375&fp-y=0.539033457249&s=aef6708b9e7e5103a5e675f85367d26a" alt="Live Standup Comedy with John F O'Donnell at The Sidecar!"></div>
-      <h3><a href="https://www.eventbrite.com/e/live-standup-comedy-with-john-f-odonnell-at-the-sidecar-tickets-1236673316179" target="_blank">Live Standup Comedy with John F O'Donnell at The Sidecar!</a></h3>
-      <p class="event-date"><strong>When:</strong> 3/29/2025, 7:30:00 PM</p>
-      <p class="event-venue"><strong>Where:</strong> The Sidecar</p>
-      <p class="event-description">Join us for a night of live Standup Comedy with John F O'Donnell at The</p>
-      <a href="https://www.eventbrite.com/e/live-standup-comedy-with-john-f-odonnell-at-the-sidecar-tickets-1236673316179" class="event-button" target="_blank">Get Tickets</a>
-    </div>
-    <div class="event-item">
-      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F989158293%2F900239923343%2F1%2Foriginal.20250321-033034?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=d7787a34185e2f6afadbdf522a8b339b" alt="Live Standup Comedy with Todd Johnson at the Residence Inn Downtown!"></div>
-      <h3><a href="https://www.eventbrite.com/e/live-standup-comedy-with-todd-johnson-at-the-residence-inn-downtown-tickets-1296399047449" target="_blank">Live Standup Comedy with Todd Johnson at the Residence Inn Downtown!</a></h3>
-      <p class="event-date"><strong>When:</strong> 4/11/2025, 8:00:00 PM</p>
-      <p class="event-venue"><strong>Where:</strong> Residence Inn Missoula Downtown</p>
-      <p class="event-description">Join us for a night of laughter with hilarious comedian Todd</p>
-      <a href="https://www.eventbrite.com/e/live-standup-comedy-with-todd-johnson-at-the-residence-inn-downtown-tickets-1296399047449" class="event-button" target="_blank">Get Tickets</a>
-    </div>
-    <div class="event-item">
-      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F978394873%2F900239923343%2F1%2Foriginal.20250307-225632?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.564393939394&fp-y=0.542750929368&s=4ec1bbeeecc62edb515693fff802ed68" alt="Live Standup Comedy with Wyatt Feegrado at the Residence Inn Downtown!"></div>
-      <h3><a href="https://www.eventbrite.com/e/live-standup-comedy-with-wyatt-feegrado-at-the-residence-inn-downtown-tickets-1274677567919" target="_blank">Live Standup Comedy with Wyatt Feegrado at the Residence Inn Downtown!</a></h3>
-      <p class="event-date"><strong>When:</strong> 5/3/2025, 8:00:00 PM</p>
-      <p class="event-venue"><strong>Where:</strong> Residence Inn Missoula Downtown</p>
-      <p class="event-description">Join us for a night of hilarious standup comedy with touring headliner Wyatt</p>
-      <a href="https://www.eventbrite.com/e/live-standup-comedy-with-wyatt-feegrado-at-the-residence-inn-downtown-tickets-1274677567919" class="event-button" target="_blank">Get Tickets</a>
+      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1014228373%2F900240094533%2F1%2Foriginal.png?h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C940%2C470&s=638a91d263b7fe00c488657c245b200a" alt="Gold Rush Days Standup Comedy Showcase"></div>
+      <h3><a href="https://www.eventbrite.com/e/gold-rush-days-standup-comedy-showcase-tickets-1334212558679" target="_blank">Gold Rush Days Standup Comedy Showcase</a></h3>
+      <p class="event-date"><strong>When:</strong> 5/9/2025, 8:00:00 PM</p>
+      <p class="event-venue"><strong>Where:</strong> Reeder's Alley</p>
+      <p class="event-description">Get ready to strike comedy gold at our Gold Rush Days Standup Comedy Showcase - it's gonna be a hilarious nugget of a</p>
+      <a href="https://www.eventbrite.com/e/gold-rush-days-standup-comedy-showcase-tickets-1334212558679" class="event-button" target="_blank">Get Tickets</a>
     </div>
     <div class="event-item">
       <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F943370503%2F900239923343%2F1%2Foriginal.20250123-223657?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.492424242424&fp-y=0.324503311258&s=55ee6b9327a99e71cc482b58e012abbc" alt="Live Standup Comedy with Doug Stanhope at Canyon Ferry Brewing!"></div>
@@ -85,6 +128,14 @@
       <a href="https://www.eventbrite.com/e/live-standup-comedy-with-doug-stanhope-at-canyon-ferry-brewing-tickets-1219908431959" class="event-button" target="_blank">Get Tickets</a>
     </div>
     <div class="event-item">
+      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1007017733%2F900239923343%2F1%2Foriginal.20250411-190728?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.287878787879&fp-y=0.501865671642&s=9576fe1c7f9b0e530d902d04d6351066" alt="Free Live Standup Comedy with Serena Thiel at Northern Hall Tap Room!"></div>
+      <h3><a href="https://www.eventbrite.com/e/free-live-standup-comedy-with-serena-thiel-at-northern-hall-tap-room-tickets-1321685690479" target="_blank">Free Live Standup Comedy with Serena Thiel at Northern Hall Tap Room!</a></h3>
+      <p class="event-date"><strong>When:</strong> 5/14/2025, 7:00:00 PM</p>
+      <p class="event-venue"><strong>Where:</strong> Northern Hall Tap Room</p>
+      <p class="event-description">Join us for a night of laughter with the hilarious Serena Thiel, as seen on Netflix's Kill</p>
+      <a href="https://www.eventbrite.com/e/free-live-standup-comedy-with-serena-thiel-at-northern-hall-tap-room-tickets-1321685690479" class="event-button" target="_blank">Get Tickets</a>
+    </div>
+    <div class="event-item">
       <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F975053433%2F900239923343%2F1%2Foriginal.20250304-182306?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.564393939394&fp-y=0.230337078652&s=5087f6c6e04c3d1810800fee246beab0" alt="Live Standup Comedy with Marty Cunnie at the VFW!"></div>
       <h3><a href="https://www.eventbrite.com/e/live-standup-comedy-with-marty-cunnie-at-the-vfw-tickets-1269362169419" target="_blank">Live Standup Comedy with Marty Cunnie at the VFW!</a></h3>
       <p class="event-date"><strong>When:</strong> 5/16/2025, 8:00:00 PM</p>
@@ -93,69 +144,55 @@
       <a href="https://www.eventbrite.com/e/live-standup-comedy-with-marty-cunnie-at-the-vfw-tickets-1269362169419" class="event-button" target="_blank">Get Tickets</a>
     </div>
     <div class="event-item">
-      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F989665723%2F900239923343%2F1%2Foriginal.20250321-182330?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.272727272727&fp-y=0.505576208178&s=e7e250d2e8d378c4f77f16203cdd2c52" alt="Live Standup Comedy with TK Moyer!"></div>
-      <h3><a href="https://www.eventbrite.com/e/live-standup-comedy-with-tk-moyer-tickets-1297294656239" target="_blank">Live Standup Comedy with TK Moyer!</a></h3>
-      <p class="event-date"><strong>When:</strong> 6/20/2025, 8:00:00 PM</p>
-      <p class="event-venue"><strong>Where:</strong> TBD</p>
+      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1023728253%2F900239923343%2F1%2Foriginal.20250505-200443?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=231755a0a66dc79aef871179ff4adc4d" alt="Live Standup Comedy at The Rathskeller!"></div>
+      <h3><a href="https://www.eventbrite.com/e/live-standup-comedy-at-the-rathskeller-tickets-1353864297559" target="_blank">Live Standup Comedy at The Rathskeller!</a></h3>
+      <p class="event-date"><strong>When:</strong> 5/28/2025, 8:00:00 PM</p>
+      <p class="event-venue"><strong>Where:</strong> The Rathskeller</p>
+      <p class="event-description">Come join us for a night of hilarious live stand-up comedy at The</p>
+      <a href="https://www.eventbrite.com/e/live-standup-comedy-at-the-rathskeller-tickets-1353864297559" class="event-button" target="_blank">Get Tickets</a>
+    </div>
+    <div class="event-item">
+      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F994408003%2F900239923343%2F1%2Foriginal.20250327-180132?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=5f8339e060226a536c6838dc9e4de1fd" alt="Live Standup Comedy with Adam Mamawala at Reeder's Alley!"></div>
+      <h3><a href="https://www.eventbrite.com/e/live-standup-comedy-with-adam-mamawala-at-reeders-alley-tickets-1303353337919" target="_blank">Live Standup Comedy with Adam Mamawala at Reeder's Alley!</a></h3>
+      <p class="event-date"><strong>When:</strong> 5/31/2025, 8:00:00 PM</p>
+      <p class="event-venue"><strong>Where:</strong> Reeder's Alley</p>
+      <p class="event-description">Join us for a night of hilarious stand-up comedy with touring headliner Adam</p>
+      <a href="https://www.eventbrite.com/e/live-standup-comedy-with-adam-mamawala-at-reeders-alley-tickets-1303353337919" class="event-button" target="_blank">Get Tickets</a>
+    </div>
+    <div class="event-item">
+      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F994408003%2F900239923343%2F1%2Foriginal.20250327-180132?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=5f8339e060226a536c6838dc9e4de1fd" alt="Free Live Standup Comedy with Adam Mamawala at Canyon Ferry Brewing!"></div>
+      <h3><a href="https://www.eventbrite.com/e/free-live-standup-comedy-with-adam-mamawala-at-canyon-ferry-brewing-tickets-1303361191409" target="_blank">Free Live Standup Comedy with Adam Mamawala at Canyon Ferry Brewing!</a></h3>
+      <p class="event-date"><strong>When:</strong> 6/1/2025, 7:00:00 PM</p>
+      <p class="event-venue"><strong>Where:</strong> Canyon Ferry Brewing</p>
+      <p class="event-description">Join us for a night of hilarious stand-up comedy with touring headliner Adam</p>
+      <a href="https://www.eventbrite.com/e/free-live-standup-comedy-with-adam-mamawala-at-canyon-ferry-brewing-tickets-1303361191409" class="event-button" target="_blank">Get Tickets</a>
+    </div>
+    <div class="event-item">
+      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F989665723%2F900239923343%2F1%2Foriginal.20250321-182330?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.272727272727&fp-y=0.505576208178&s=e7e250d2e8d378c4f77f16203cdd2c52" alt="Free Live Standup Comedy with TK Moyer at Canyon Ferry Brewing!"></div>
+      <h3><a href="https://www.eventbrite.com/e/free-live-standup-comedy-with-tk-moyer-at-canyon-ferry-brewing-tickets-1303334120439" target="_blank">Free Live Standup Comedy with TK Moyer at Canyon Ferry Brewing!</a></h3>
+      <p class="event-date"><strong>When:</strong> 6/19/2025, 7:00:00 PM</p>
+      <p class="event-venue"><strong>Where:</strong> Canyon Ferry Brewing</p>
       <p class="event-description">Join us for a night of laughter with hilarious stand-up comedian TK</p>
-      <a href="https://www.eventbrite.com/e/live-standup-comedy-with-tk-moyer-tickets-1297294656239" class="event-button" target="_blank">Get Tickets</a>
+      <a href="https://www.eventbrite.com/e/free-live-standup-comedy-with-tk-moyer-at-canyon-ferry-brewing-tickets-1303334120439" class="event-button" target="_blank">Get Tickets</a>
+    </div>
+    <div class="event-item">
+      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F989665723%2F900239923343%2F1%2Foriginal.20250321-182330?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.272727272727&fp-y=0.505576208178&s=e7e250d2e8d378c4f77f16203cdd2c52" alt="Live Standup Comedy with TK Moyer at Reeder's Alley!"></div>
+      <h3><a href="https://www.eventbrite.com/e/live-standup-comedy-with-tk-moyer-at-reeders-alley-tickets-1297294656239" target="_blank">Live Standup Comedy with TK Moyer at Reeder's Alley!</a></h3>
+      <p class="event-date"><strong>When:</strong> 6/20/2025, 8:00:00 PM</p>
+      <p class="event-venue"><strong>Where:</strong> Reeder's Alley</p>
+      <p class="event-description">Join us for a night of laughter with hilarious stand-up comedian TK</p>
+      <a href="https://www.eventbrite.com/e/live-standup-comedy-with-tk-moyer-at-reeders-alley-tickets-1297294656239" class="event-button" target="_blank">Get Tickets</a>
+    </div>
+    <div class="event-item">
+      <div class="event-image"><img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F994258743%2F900239923343%2F1%2Foriginal.20250327-154509?crop=focalpoint&fit=crop&h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.301136363636&fp-y=0.542750929368&s=5749e35501ed975b03e8e2bba1c7eee5" alt="Live Standup Comedy with Colum Tyrrell at Reeder's Alley!"></div>
+      <h3><a href="https://www.eventbrite.com/e/live-standup-comedy-with-colum-tyrrell-at-reeders-alley-tickets-1303183670439" target="_blank">Live Standup Comedy with Colum Tyrrell at Reeder's Alley!</a></h3>
+      <p class="event-date"><strong>When:</strong> 8/16/2025, 8:00:00 PM</p>
+      <p class="event-venue"><strong>Where:</strong> Reeder's Alley</p>
+      <p class="event-description">Join us for a night of comedy with touring headliner Colum</p>
+      <a href="https://www.eventbrite.com/e/live-standup-comedy-with-colum-tyrrell-at-reeders-alley-tickets-1303183670439" class="event-button" target="_blank">Get Tickets</a>
     </div>
   </div>
 </div>
-<style>
-  .events-container {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  .events-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .event-item {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  .event-image {
-    margin-bottom: 15px;
-  }
-  .event-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-  }
-  .event-item h3 {
-    margin-top: 0;
-    color: #333;
-  }
-  .event-date, .event-venue {
-    color: #555;
-  }
-  .event-description {
-    margin: 10px 0;
-    font-style: italic;
-  }
-  .event-button {
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #f8682E;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    margin-top: 10px;
-  }
-  .event-button:hover {
-    background-color: #e5591b;
-  }
-  @media (min-width: 768px) {
-    .events-list {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-</style></div>
+
 </body>
 </html>
