@@ -1,202 +1,163 @@
 const axios = require('axios');
 const fs = require('fs');
+const path = require('path');
 
-async function fetchEvents(organizerId, maxEvents = 10) {
+const ORGANIZER_ID = '45498494533';
+const MANUAL_EVENTS_FILE = path.join(__dirname, 'manual-events.json');
+const INDEX_FILE = path.join(__dirname, 'index.html');
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+async function fetchEventbriteEvents(maxEvents = 20) {
   try {
-    const url = `https://www.eventbrite.com/o/${organizerId}`;
-    console.log('Fetching URL:', url);
+    const url = `https://www.eventbrite.com/o/${ORGANIZER_ID}`;
+    console.log('Fetching Eventbrite events...');
     const response = await axios.get(url);
     const pageHtml = response.data;
-    
-    // Extract the JSON data from window.__SERVER_DATA__
+
     const serverDataMatch = pageHtml.match(/window\.__SERVER_DATA__\s*=\s*({[\s\S]*?});/);
     if (!serverDataMatch) {
-      throw new Error('Could not find window.__SERVER_DATA__ in the page');
-    }
-    
-    const serverData = JSON.parse(serverDataMatch[1]);
-    
-    // Find the jsonld array containing event data
-    const jsonld = serverData.jsonld || [];
-    const eventListJsonld = jsonld.find(item => item['@context'] === 'https://schema.org' && item.itemListElement);
-    
-    if (!eventListJsonld || !eventListJsonld.itemListElement) {
-      console.log('No events found in jsonld data');
+      console.warn('Could not find __SERVER_DATA__ — Eventbrite may have changed their page structure');
       return [];
     }
-    
-    const events = [];
-    const now = new Date();
-    
-    eventListJsonld.itemListElement.forEach(item => {
-      const event = item.item;
-      if (event.startDate) {
-        const eventDate = new Date(event.startDate);
-        // Only include future events
-        if (eventDate > now) {
-          const eventObj = {
-            name: event.name || 'Event TBD',
-            date: eventDate.toLocaleString(),
-            venue: event.location?.name || 'Venue TBD',
-            url: event.url || '#',
-            description: event.description || '',
-            image: event.image || ''
-          };
-          
-          console.log('Found future event:', eventObj);
-          events.push(eventObj);
-        } else {
-          console.log('Skipping past event:', event.name, 'on', new Date(event.startDate).toLocaleString());
-        }
-      }
-    });
-    
-    // Sort events by date
-    events.sort((a, b) => new Date(a.date) - new Date(b.date));
-    
-    // Take only the requested number of events
-    const limitedEvents = events.slice(0, maxEvents);
-    console.log(`Found ${limitedEvents.length} upcoming events`);
-    return limitedEvents;
+
+    const serverData = JSON.parse(serverDataMatch[1]);
+    const jsonld = serverData.jsonld || [];
+    const eventList = jsonld.find(item => item['@context'] === 'https://schema.org' && item.itemListElement);
+
+    if (!eventList || !eventList.itemListElement) {
+      console.log('No events found on Eventbrite');
+      return [];
+    }
+
+    return eventList.itemListElement
+      .map(item => item.item)
+      .filter(event => event.startDate && new Date(event.startDate) > new Date())
+      .map(event => ({
+        title: event.name || 'Event TBD',
+        date: event.startDate,
+        venue: event.location?.name || 'Venue TBD',
+        url: event.url || '#',
+        description: event.description || '',
+        image: event.image || '',
+        source: 'eventbrite'
+      }))
+      .slice(0, maxEvents);
   } catch (error) {
-    console.error('Error fetching events:', error.message);
-    if (error.response) {
-      console.error('Response status:', error.response.status);
-      console.error('Response headers:', error.response.headers);
-    }
-    throw error;
+    console.error('Error fetching Eventbrite events:', error.message);
+    return [];
   }
 }
 
-function generateEventHTML(events) {
-  if (!events || events.length === 0) {
-    return '<div class="events-container"><p>No upcoming events found.</p></div>';
-  }
-  
-  let html = '<div class="events-container">\n';
-  html += '  <h2>Upcoming Events</h2>\n';
-  html += '  <div class="events-list">\n';
-  
-  events.forEach(event => {
-    html += '    <div class="event-item">\n';
-    if (event.image) {
-      html += `      <div class="event-image"><img src="${event.image}" alt="${event.name}"></div>\n`;
-    }
-    html += `      <h3><a href="${event.url}" target="_blank">${event.name}</a></h3>\n`;
-    html += `      <p class="event-date"><strong>When:</strong> ${event.date}</p>\n`;
-    html += `      <p class="event-venue"><strong>Where:</strong> ${event.venue}</p>\n`;
-    if (event.description) {
-      html += `      <p class="event-description">${event.description}</p>\n`;
-    }
-    html += `      <a href="${event.url}" class="event-button" target="_blank">Get Tickets</a>\n`;
-    html += '    </div>\n';
-  });
-  
-  html += '  </div>\n';
-  html += '</div>\n';
-  
-  return html;
-}
-
-function saveServerDataToJson(serverData, organizerId) {
-  const outputFile = `server-data-${organizerId}.json`;
-  const prettyJson = JSON.stringify(serverData, null, 2);
-  fs.writeFileSync(outputFile, prettyJson);
-  console.log(`Server data saved to ${outputFile}`);
-}
-
-async function updateIndexHtml(eventsHtml) {
+function loadManualEvents() {
   try {
-    let indexHtml = fs.readFileSync('index.html', 'utf8');
-    const eventsContainerStart = indexHtml.lastIndexOf('<div id="events-container">');
-    
-    if (eventsContainerStart === -1) {
-      throw new Error('Could not find events container in index.html');
-    }
-    
-    // Find the end of the events container by matching nested divs
-    let depth = 1;
-    let pos = eventsContainerStart + '<div id="events-container">'.length;
-    
-    while (depth > 0 && pos < indexHtml.length) {
-      const nextOpenDiv = indexHtml.indexOf('<div', pos);
-      const nextCloseDiv = indexHtml.indexOf('</div>', pos);
-      
-      if (nextCloseDiv === -1) {
-        throw new Error('Malformed HTML: missing closing div');
-      }
-      
-      if (nextOpenDiv !== -1 && nextOpenDiv < nextCloseDiv) {
-        depth++;
-        pos = nextOpenDiv + 1;
-      } else {
-        depth--;
-        pos = nextCloseDiv + 1;
-      }
-    }
-    
-    if (depth !== 0) {
-      throw new Error('Malformed HTML: unbalanced div tags');
-    }
-    
-    const eventsContainerEnd = pos - 1;
-    
-    // Get the closing div tag
-    const closingDiv = indexHtml.substring(eventsContainerEnd, eventsContainerEnd + 6);
-    if (closingDiv !== '</div>') {
-      throw new Error('Malformed HTML: unexpected closing tag');
-    }
-    
-    const newIndexHtml = indexHtml.substring(0, eventsContainerStart) + 
-                        '<div id="events-container">' + 
-                        eventsHtml + 
-                        indexHtml.substring(eventsContainerEnd + 6);
-    
-    fs.writeFileSync('index.html', newIndexHtml);
-    console.log('Updated index.html with latest events');
+    const raw = fs.readFileSync(MANUAL_EVENTS_FILE, 'utf8');
+    const events = JSON.parse(raw);
+    return events
+      .filter(event => event.date && new Date(event.date) > new Date())
+      .map(event => ({ ...event, source: 'manual' }));
   } catch (error) {
-    console.error('Error updating index.html:', error.message);
-    throw error;
+    console.log('No manual events file found or it is empty');
+    return [];
   }
+}
+
+function mergeAndSort(eventbriteEvents, manualEvents) {
+  const all = [...eventbriteEvents, ...manualEvents];
+  all.sort((a, b) => new Date(a.date) - new Date(b.date));
+  return all;
+}
+
+function formatEventHTML(event) {
+  const d = new Date(event.date);
+  const month = MONTHS[d.getMonth()];
+  const day = d.getDate();
+  const dow = DAYS[d.getDay()];
+  const hours = d.getHours();
+  const minutes = d.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const hour12 = hours % 12 || 12;
+  const time = `${hour12}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+
+  const escapedTitle = event.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const escapedVenue = event.venue.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  return `        <div class="event-item">
+            <div class="event-date-block">
+                <div class="month">${month}</div>
+                <div class="day">${day}</div>
+                <div class="dow">${dow}</div>
+            </div>
+            <div class="event-info">
+                <div class="event-name">${escapedTitle}</div>
+                <div class="event-venue">${escapedVenue}</div>
+                <div class="event-time">${time}</div>
+            </div>
+            <div class="event-action">
+                <a href="${event.url}" class="btn" target="_blank" rel="noopener">Tickets</a>
+            </div>
+        </div>`;
+}
+
+function generateEventsHTML(events) {
+  if (events.length === 0) {
+    return '\n            <p class="no-events">No upcoming shows right now. Check back soon!</p>\n        ';
+  }
+  return '\n    <div class="events-list">\n' +
+    events.map(formatEventHTML).join('\n') +
+    '\n    </div>\n    ';
+}
+
+function updateIndexHTML(eventsHTML) {
+  let html = fs.readFileSync(INDEX_FILE, 'utf8');
+
+  const startTag = '<div id="events-container">';
+  const startIdx = html.indexOf(startTag);
+  if (startIdx === -1) {
+    throw new Error('Could not find <div id="events-container"> in index.html');
+  }
+
+  const contentStart = startIdx + startTag.length;
+
+  // Find matching closing </div>
+  let depth = 1;
+  let pos = contentStart;
+  while (depth > 0 && pos < html.length) {
+    const nextOpen = html.indexOf('<div', pos);
+    const nextClose = html.indexOf('</div>', pos);
+    if (nextClose === -1) throw new Error('Malformed HTML');
+    if (nextOpen !== -1 && nextOpen < nextClose) {
+      depth++;
+      pos = nextOpen + 4;
+    } else {
+      depth--;
+      if (depth === 0) {
+        const updated = html.substring(0, contentStart) + eventsHTML + html.substring(nextClose);
+        fs.writeFileSync(INDEX_FILE, updated);
+        console.log('Updated index.html');
+        return;
+      }
+      pos = nextClose + 6;
+    }
+  }
+  throw new Error('Malformed HTML: unbalanced divs');
 }
 
 async function main() {
-  const organizerId = process.argv[2];
-  const maxEvents = parseInt(process.argv[3]) || 10;
-  
-  if (!organizerId) {
-    console.error('Please provide an organizer ID');
-    console.error('Usage: node generate-events.js <organizer-id> [max-events]');
-    process.exit(1);
-  }
-  
-  try {
-    console.log(`Fetching events for organizer ${organizerId}...`);
-    const url = `https://www.eventbrite.com/o/${organizerId}`;
-    const response = await axios.get(url);
-    const pageHtml = response.data;
-    
-    // Extract the JSON data from window.__SERVER_DATA__
-    const serverDataMatch = pageHtml.match(/window\.__SERVER_DATA__\s*=\s*({[\s\S]*?});/);
-    if (!serverDataMatch) {
-      throw new Error('Could not find window.__SERVER_DATA__ in the page');
-    }
-    
-    const serverData = JSON.parse(serverDataMatch[1]);
-    
-    // Save the server data to a JSON file
-    saveServerDataToJson(serverData, organizerId);
-    
-    // Continue with existing event processing
-    const events = await fetchEvents(organizerId, maxEvents);
-    const eventsHtml = generateEventHTML(events);
-    
-    // Update index.html with the events
-    await updateIndexHtml(eventsHtml);
-  } catch (error) {
-    console.error('Failed to update events:', error.message);
-    process.exit(1);
-  }
+  const [eventbriteEvents, manualEvents] = await Promise.all([
+    fetchEventbriteEvents(),
+    Promise.resolve(loadManualEvents())
+  ]);
+
+  console.log(`Found ${eventbriteEvents.length} Eventbrite events`);
+  console.log(`Found ${manualEvents.length} manual events`);
+
+  const allEvents = mergeAndSort(eventbriteEvents, manualEvents);
+  console.log(`Total upcoming events: ${allEvents.length}`);
+
+  const eventsHTML = generateEventsHTML(allEvents);
+  updateIndexHTML(eventsHTML);
 }
 
-main(); 
+main();

@@ -1,13 +1,12 @@
 {
-  "name": "eventbrite-html-generator",
+  "name": "302comedy",
   "version": "1.0.0",
-  "description": "Generate HTML for Eventbrite events",
-  "main": "generate-events.js",
+  "description": "302 Comedy - Big Laughs for Small Towns",
+  "private": true,
   "scripts": {
     "generate": "node generate-events.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
     "axios": "^1.6.2"
   }
-} 
+}

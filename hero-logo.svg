@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" width="720" height="280">
+  <style>
+    @font-face {
+      font-family: 'Kollektif';
+      src: url('fonts/Kollektif-Bold.woff') format('woff');
+      font-weight: 700;
+      font-style: normal;
+    }
+    .title { font-family: 'Kollektif', sans-serif; font-weight: 700; fill: #f0f0f0; }
+    .tagline { font-family: 'Kollektif', sans-serif; font-weight: 700; fill: #f0f0f0; }
+  </style>
+  <text class="title" x="360" y="120" text-anchor="middle" font-size="120">302 Comedy</text>
+  <text class="tagline" x="360" y="210" text-anchor="middle" font-size="56">big laughs. small towns.</text>
+</svg>
