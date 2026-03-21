@@ -64,7 +64,27 @@ body {
 .hero-logo {
     max-width: 100%;
     width: 720px;
+    margin-bottom: 2.5rem;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
     margin-bottom: 2rem;
+}
+
+.hero-cta .btn {
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+    background: transparent;
+    border: 2px solid var(--light);
+    color: var(--light);
+}
+
+.hero-cta .btn:hover {
+    background: var(--red);
+    border-color: var(--red);
 }
 
 .hero-title,
