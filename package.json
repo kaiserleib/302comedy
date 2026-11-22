@@ -1,12 +1,10 @@
 {
   "name": "302comedy",
-  "version": "1.0.0",
-  "description": "302 Comedy - Big Laughs for Small Towns",
+  "version": "2.0.0",
+  "description": "302 Comedy - big laughs. small towns.",
   "private": true,
   "scripts": {
-    "generate": "node generate-events.js"
-  },
-  "dependencies": {
-    "axios": "^1.6.2"
+    "build": "node build.js",
+    "check": "node build.js --check"
   }
 }

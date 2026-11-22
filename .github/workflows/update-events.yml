@@ -1,12 +1,23 @@
-name: Update Events
+name: Update shows
+
+# Rebuilds the show listings from Eventbrite and commits them when they change.
+# GitHub Pages then redeploys the site by itself.
 
 on:
   schedule:
-    - cron: '0 10 * * *'  # Daily at 10:00 UTC (3:00 AM MT)
-  workflow_dispatch:  # Allow manual trigger
+    - cron: '17 */4 * * *'   # every four hours, off the top of the hour
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['build.js', 'index.html', 'montana/index.html', 'manual-events.json']
 
 permissions:
   contents: write
+  actions: write   # for the keep-alive step
+
+concurrency:
+  group: update-shows
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -16,17 +27,28 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
-      - run: npm ci
-
-      - run: node generate-events.js
+      - name: Rebuild listings from Eventbrite
+        env:
+          EVENTBRITE_API_TOKEN: ${{ secrets.EVENTBRITE_API_TOKEN }}
+          EVENTBRITE_ORG_ID: ${{ secrets.EVENTBRITE_ORG_ID }}
+        run: node build.js
 
       - name: Commit and push if changed
         run: |
-          git diff --quiet index.html && exit 0
+          git diff --quiet && exit 0
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html
-          git commit -m "Update events $(date -u +%Y-%m-%d)"
+          git commit -am "Update shows $(date -u +%Y-%m-%d)"
           git push
+
+      # GitHub switches off scheduled workflows after 60 days without a
+      # commit to the repo, which is what silently stopped this job in June
+      # 2026. Re-enabling the workflow resets that clock, so a quiet stretch
+      # between shows can't stop it again.
+      - name: Keep the schedule alive
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/update-events.yml/enable"
