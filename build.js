@@ -202,7 +202,7 @@ const SCOPES = {
     </section>`;
   },
   'montana-compact'(events) {
-    const shows = events.filter(e => e.region === 'MT').slice(0, 4);
+    const shows = events.filter(e => e.region === 'MT').slice(0, 6);
     if (!shows.length) return '';
     return `        <section class="next">
             <p class="kicker">On sale now</p>
