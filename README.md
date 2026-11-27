@@ -43,12 +43,13 @@ tag from it (`TOWNS`), so each signup still gets two Kit tags:
 | Town - Elsewhere in Montana | 26302978 |
 | Town - Outside Montana | 26302979 |
 
-The ZIP is the real record; the town tags are a convenience and the only
-location most older subscribers have (they were tagged on 2026-11-26 with
-the town they bought tickets in, and have no ZIP). The 2026-11-22 to 26
-signups who picked a town carry that town's most populous ZIP (Helena
-59601, Townsend 59644, Missoula 59801, Bozeman 59718), which is a stand-in,
-not their address. To send a show's email, use the town tag, or filter on
+The ZIP is the real record and the town tags are a convenience. Only
+signups from 2026-11-26 on (and buyers who answered the checkout ZIP
+question) have a ZIP they typed. Older subscribers were filled in that day
+with stand-ins: ticket buyers got the ZIP of the venue they bought for and
+the tag of that town, and the 2026-11-22 to 26 signups who picked a town
+got its most populous ZIP (Helena 59601, Townsend 59644, Missoula 59801,
+Bozeman 59718). Those say which town, not where the person lives. To send a show's email, use the town tag, or filter on
 the ZIP field for a town without a tag. To give a new town its own tag,
 create it in Kit and add a row to `TOWNS` in `site.js`.
 
