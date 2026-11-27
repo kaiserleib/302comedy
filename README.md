@@ -27,7 +27,10 @@ four hours and commits when something changed.
 ## Mailing list
 
 Forms post to the Kit form "302 Comedy site signup (302comedy.com)"
-(`10228317`, no confirmation email). Each signup gets two Kit tags:
+(`10228317`, no confirmation email). They ask for an email and a ZIP code
+(since 2026-11-26; before that, a town from a fixed list). The ZIP goes in
+Kit's custom field "Zip code" (`zip_code`), and `site.js` works out a town
+tag from it (`TOWNS`), so each signup still gets two Kit tags:
 
 | Tag | ID |
 |---|---|
@@ -40,8 +43,17 @@ Forms post to the Kit form "302 Comedy site signup (302comedy.com)"
 | Town - Elsewhere in Montana | 26302978 |
 | Town - Outside Montana | 26302979 |
 
-Send a show's email to its town tag. To add a town, create the tag in Kit
-and add an `<option>` to the three `<select>`s.
+The ZIP is the real record; the town tags are a convenience and the only
+location most older subscribers have (they were tagged on 2026-11-26 with
+the town they bought tickets in, and have no ZIP). The 2026-11-22 to 26
+signups who picked a town carry that town's most populous ZIP (Helena
+59601, Townsend 59644, Missoula 59801, Bozeman 59718), which is a stand-in,
+not their address. To send a show's email, use the town tag, or filter on
+the ZIP field for a town without a tag. To give a new town its own tag,
+create it in Kit and add a row to `TOWNS` in `site.js`.
+
+`site.js` and `styles.css` are loaded with `?v=N`; bump it when a change
+to them must reach visitors together with the HTML.
 
 ## Ads
 

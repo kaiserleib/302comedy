@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600&family=Poppins:wght@400;500;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
 
     <!-- Meta pixel (302 Comedy dataset). PageView on load; site.js sends Lead
          when Kit confirms a signup. -->
@@ -55,22 +55,14 @@
             <p class="kicker">Live standup comedy · Montana</p>
             <h1>Big laughs.<br>Small towns.</h1>
             <div class="rule"></div>
-            <p class="lede">Touring headliners in Montana's breweries, bars and back rooms. Tell us your town and we'll email you when a show is coming to it.</p>
+            <p class="lede">Touring headliners in Montana's breweries, bars and back rooms. Tell us your ZIP code and we'll email you when a show is coming near you.</p>
 
             <div class="signup">
                 <form class="list-form" data-source="26302972" data-lead="302-site-hero" novalidate>
                     <label class="sr" for="hero-email">Email address</label>
                     <input id="hero-email" name="email_address" type="email" required autocomplete="email" placeholder="you@example.com">
-                    <label class="sr" for="hero-town">Your town</label>
-                    <select id="hero-town" name="tags[]" required>
-                        <option value="" selected disabled>Nearest town</option>
-                        <option value="26302974">Helena</option>
-                        <option value="26302975">Townsend</option>
-                        <option value="26302976">Missoula</option>
-                        <option value="26302977">Bozeman</option>
-                        <option value="26302978">Elsewhere in Montana</option>
-                        <option value="26302979">Outside Montana</option>
-                    </select>
+                    <label class="sr" for="hero-zip">ZIP code</label>
+                    <input id="hero-zip" class="zip" name="fields[zip_code]" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code" placeholder="ZIP code">
                     <button class="btn" type="submit">Get on the list</button>
                 </form>
                 <p class="list-status" role="status" aria-live="polite"></p>
@@ -181,16 +173,8 @@
                 <form class="list-form" data-source="26302972" data-lead="302-site-band" novalidate>
                     <label class="sr" for="band-email">Email address</label>
                     <input id="band-email" name="email_address" type="email" required autocomplete="email" placeholder="you@example.com">
-                    <label class="sr" for="band-town">Your town</label>
-                    <select id="band-town" name="tags[]" required>
-                        <option value="" selected disabled>Nearest town</option>
-                        <option value="26302974">Helena</option>
-                        <option value="26302975">Townsend</option>
-                        <option value="26302976">Missoula</option>
-                        <option value="26302977">Bozeman</option>
-                        <option value="26302978">Elsewhere in Montana</option>
-                        <option value="26302979">Outside Montana</option>
-                    </select>
+                    <label class="sr" for="band-zip">ZIP code</label>
+                    <input id="band-zip" class="zip" name="fields[zip_code]" type="text" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code" placeholder="ZIP code">
                     <button class="btn btn-dark" type="submit">Get on the list</button>
                 </form>
                 <p class="list-status" role="status" aria-live="polite"></p>
@@ -235,6 +219,6 @@
         </div>
     </footer>
 
-    <script src="site.js"></script>
+    <script src="site.js?v=2"></script>
 </body>
 </html>
